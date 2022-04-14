@@ -1,5 +1,6 @@
 package com.example.myapplication.data.repo
 
+import com.example.myapplication.data.remote.model.CurrencyConvertResponse
 import com.example.myapplication.data.remote.model.CurrencyResponse
 import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.data.remote.service.ICurrencyService
@@ -8,6 +9,8 @@ import javax.inject.Inject
 interface CurrencyConverterRepository {
 
     suspend fun getAllCurrency() : ResultWrapper<CurrencyResponse>
+
+    suspend fun convertCurrency(from : String, to : String) : ResultWrapper<CurrencyResponse>
 }
 
 class CurrencyConverterRepositoryImpl @Inject constructor(
@@ -29,5 +32,25 @@ class CurrencyConverterRepositoryImpl @Inject constructor(
             ResultWrapper.Error(e.message ?: "An error occured")
         }
     }
+
+    override suspend fun convertCurrency(
+        from: String,
+        to: String
+    ): ResultWrapper<CurrencyResponse> {
+        return try {
+            val response = rService.convertCurrency(from)
+            val result = response.body()
+
+            if (response.isSuccessful && result != null) {
+                ResultWrapper.Success(result)
+            } else {
+                ResultWrapper.Error(response.message())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ResultWrapper.Error(e.message ?: "An error occured")
+        }
+    }
+
 
 }

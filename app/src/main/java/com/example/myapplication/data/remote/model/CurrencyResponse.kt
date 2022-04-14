@@ -8,7 +8,7 @@ data class CurrencyResponse(
     @SerializedName("date")
     val date: String,
     @SerializedName("rates")
-    val rates: HashMap<String, Double>,
+    val rates: LinkedHashMap<String, Float>,
     @SerializedName("success")
     val success: Boolean,
     @SerializedName("timestamp")
