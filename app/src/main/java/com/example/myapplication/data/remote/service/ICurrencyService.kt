@@ -11,8 +11,8 @@ interface ICurrencyService {
 
     @GET("latest")
     suspend fun getAllCurrency(
-        @Query("base") base: String,
-        @Query("access_key") accessKey: String = Constants.BASE_URL,
-        @Query("symbols") symbols: String = "IDR, USD, EUR",
+       // @Query("base") base: String = Constants.BASE_URL,
+        @Query("access_key") accessKey: String = Constants.ACCESS_KEY,
+      //  @Query("symbols") symbols: String = "IDR, USD, EUR",
     ) : Response<CurrencyResponse>
 }

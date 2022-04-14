@@ -7,16 +7,16 @@ import javax.inject.Inject
 
 interface CurrencyConverterRepository {
 
-    suspend fun getAllCurrency(base: String) : ResultWrapper<CurrencyResponse>
+    suspend fun getAllCurrency() : ResultWrapper<CurrencyResponse>
 }
 
 class CurrencyConverterRepositoryImpl @Inject constructor(
     private val rService: ICurrencyService
 )
 : CurrencyConverterRepository {
-    override suspend fun getAllCurrency(base: String): ResultWrapper<CurrencyResponse> {
+    override suspend fun getAllCurrency(): ResultWrapper<CurrencyResponse> {
         return try {
-            val response = rService.getAllCurrency(base)
+            val response = rService.getAllCurrency()
             val result = response.body()
 
             if (response.isSuccessful && result != null) {

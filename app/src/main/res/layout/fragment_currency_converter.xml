@@ -74,7 +74,7 @@
         android:id="@+id/spFromCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@android:array/emailAddressTypes"
+
         android:padding="15dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toStartOf="@+id/spToCurrency"
@@ -84,7 +84,7 @@
         android:id="@+id/spToCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@android:array/emailAddressTypes"
+
         android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTo" />
