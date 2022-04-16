@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.data.remote.model.CurrencyCallback
 import com.example.myapplication.databinding.FragmentCurrencyConverterBinding
@@ -47,13 +48,13 @@ class CurrencyConvertorFragment : BaseFragment() {
     }
 
     private fun observeLiveDataEvents() {
-        viewModel.allCurrencies.observe(viewLifecycleOwner) { currencyResponse ->
-            when (currencyResponse) {
+        viewModel.allCurrencies.observe(viewLifecycleOwner) {
+            when (it) {
                 is CurrencyCallback.Success -> {
-                    if (!currencyResponse.success.success) {
-                        showError(currencyResponse.success.baseError.info)
+                    if (!it.success.success) {
+                        showError(it.success.baseError.info)
                     } else {
-                        currencyResponse.success?.rates?.keys?.let { it -> setAdapter(it.toTypedArray()) }
+                        it.success.rates.keys.let { setAdapter(it.toTypedArray()) }
                     }
                     binding.progressBar.isVisible = false
 
@@ -68,8 +69,8 @@ class CurrencyConvertorFragment : BaseFragment() {
             }
         }
 
-        viewModel.convertedCurrency.observe(viewLifecycleOwner) { currencyResponse ->
-            if (currencyResponse is CurrencyCallback.Failure) {
+        viewModel.convertedCurrency.observe(viewLifecycleOwner) {
+            if (it is CurrencyCallback.Failure) {
                 showError(resources.getString(R.string.app_error))
             }
         }
@@ -77,13 +78,13 @@ class CurrencyConvertorFragment : BaseFragment() {
 
     private fun initListener() {
         binding.btnConvert.setOnClickListener {
-            binding.spFromCurrency?.selectedItem?.toString()?.let { it1 ->
-                binding.spToCurrency.selectedItem?.toString()?.let { it2 ->
+            binding.spFromCurrency.selectedItem?.toString()?.let { fromSpinnerData ->
+                binding.spToCurrency.selectedItem?.toString()?.let { toSpinnerData ->
                     viewModel.convert(
                         binding.etFrom.text.toString(),
                         binding.etTo.text.toString(),
-                        it1,
-                        it2,
+                        fromSpinnerData,
+                        toSpinnerData,
                     )
                 }
             }
@@ -97,10 +98,12 @@ class CurrencyConvertorFragment : BaseFragment() {
             val toSpinnerPosition = binding.spToCurrency.selectedItemPosition
             binding.spFromCurrency.setSelection(toSpinnerPosition)
             binding.spToCurrency.setSelection(fromSpinnerPosition)
-            val arrayAdapter = binding.spFromCurrency.adapter as ArrayAdapter<*>
-            arrayAdapter.notifyDataSetChanged()
-            val arrayAdapter2 = binding.spToCurrency.adapter as ArrayAdapter<*>
-            arrayAdapter2.notifyDataSetChanged()
+            (binding.spFromCurrency.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+            (binding.spToCurrency.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        }
+
+        binding.btnDetails.setOnClickListener {
+            findNavController().navigate(R.id.action_currencyConverter_to_currencyDetail)
         }
     }
 

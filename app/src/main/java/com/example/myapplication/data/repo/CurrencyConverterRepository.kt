@@ -14,6 +14,10 @@ interface CurrencyConverterRepository {
         fromSymbol: String,
         toSymbol: String
     ): ResultWrapper<CurrencyResponse>
+
+    suspend fun getHistoricalData(
+        date: String
+    ): ResultWrapper<CurrencyResponse>
 }
 
 class CurrencyConverterRepositoryImpl @Inject constructor(
@@ -41,6 +45,22 @@ class CurrencyConverterRepositoryImpl @Inject constructor(
     ): ResultWrapper<CurrencyResponse> {
         return try {
             val response = rService.convertCurrency(fromSymbol)
+            val result = response.body()
+
+            if (response.isSuccessful && result != null) {
+                ResultWrapper.Success(result)
+            } else {
+                ResultWrapper.Error(ErrorWrapper(response.errorBody()))
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ResultWrapper.Error(ErrorWrapper(e))
+        }
+    }
+
+    override suspend fun getHistoricalData(date: String): ResultWrapper<CurrencyResponse> {
+        return try {
+            val response = rService.getHistoricalData(date = "2022-04-16")
             val result = response.body()
 
             if (response.isSuccessful && result != null) {

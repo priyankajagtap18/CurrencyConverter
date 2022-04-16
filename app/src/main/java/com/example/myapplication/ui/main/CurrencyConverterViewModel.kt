@@ -128,7 +128,7 @@ class CurrencyConverterViewModel @Inject constructor(
 //        }
 //        view.setSelection(position)
 //    }
-    fun fetchAllCurrency() {
+    private fun fetchAllCurrency() {
         (allCurrencies as MutableLiveData).value = CurrencyCallback.Loading
         customViewModelScope.launch() {
             when (val rateResponse = currencyConverterRepo.getAllCurrency()) {

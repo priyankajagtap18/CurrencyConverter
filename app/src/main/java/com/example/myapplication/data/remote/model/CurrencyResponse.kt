@@ -14,5 +14,7 @@ data class CurrencyResponse(
     @SerializedName("timestamp")
     val timestamp: Int,
     @SerializedName("error")
-    var baseError: BaseError
+    var baseError: BaseError,
+    @SerializedName("historical")
+    var historical: Boolean
 )
