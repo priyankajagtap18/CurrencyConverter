@@ -2,6 +2,7 @@ package com.example.myapplication.data.repo
 
 import com.example.myapplication.data.remote.model.CurrencyConvertResponse
 import com.example.myapplication.data.remote.model.CurrencyResponse
+import com.example.myapplication.data.remote.model.ErrorWrapper
 import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.data.remote.service.ICurrencyService
 import javax.inject.Inject
@@ -25,11 +26,11 @@ class CurrencyConverterRepositoryImpl @Inject constructor(
             if (response.isSuccessful && result != null) {
                 ResultWrapper.Success(result)
             } else {
-                ResultWrapper.Error(response.message())
+                ResultWrapper.Error(ErrorWrapper(response.errorBody()))
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            ResultWrapper.Error(e.message ?: "An error occured")
+            ResultWrapper.Error(ErrorWrapper(e))
         }
     }
 
@@ -44,11 +45,11 @@ class CurrencyConverterRepositoryImpl @Inject constructor(
             if (response.isSuccessful && result != null) {
                 ResultWrapper.Success(result)
             } else {
-                ResultWrapper.Error(response.message())
+                ResultWrapper.Error(ErrorWrapper(response.errorBody()))
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            ResultWrapper.Error(e.message ?: "An error occured")
+            ResultWrapper.Error(ErrorWrapper(e))
         }
     }
 

@@ -18,7 +18,6 @@ interface ICurrencyService {
     @GET("latest")
     suspend fun convertCurrency(
         @Query("base") base: String ,
-//        @Query("symbols") symbols: String,
         @Query("access_key") accessKey: String = Constants.ACCESS_KEY,
     ): Response<CurrencyResponse>
 }
