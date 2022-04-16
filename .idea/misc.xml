@@ -4,8 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../Library/Android/sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.28442028985507245" />
+        <entry key="app/src/main/res/drawable/ic_swap.xml" value="0.2525" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18385416666666668" />
-        <entry key="app/src/main/res/layout/fragment_currency_converter.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_currency_converter.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_currency_history.xml" value="0.340625" />
       </map>
     </option>
   </component>

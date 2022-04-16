@@ -8,21 +8,22 @@
     <fragment
         android:id="@+id/currencyConverterFragment"
         android:name="com.example.myapplication.ui.main.CurrencyConvertorFragment"
-        android:label=""
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_currency_converter">
 
-<!--        <action android:id="@+id/action_myHomeFragment_to_mySecondFragment"-->
-<!--            app:destination="@id/mySecondFragment"-->
-<!--            app:enterAnim="@anim/nav_default_enter_anim"-->
-<!--            app:exitAnim="@anim/nav_default_exit_anim"-->
-<!--            app:popEnterAnim="@animator/nav_default_pop_enter_anim"-->
-<!--            app:popExitAnim="@animator/nav_default_pop_exit_anim"/>-->
+        <action
+            android:id="@+id/action_currencyConverter_to_currencyDetail"
+            app:destination="@id/currencyHistoryFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim" />
 
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/currencyHistoryFragment"-->
-<!--        android:name="com.example.myapplication.ui.main.CurrencyConvertorFragment"-->
-<!--        android:label="fragment_my_home"-->
-<!--        tools:layout="@layout/fragment_my_home"/>-->
+    <fragment
+        android:id="@+id/currencyHistoryFragment"
+        android:name="com.example.myapplication.ui.main.CurrencyHistoryFragment"
+        android:label="@string/details"
+        tools:layout="@layout/fragment_currency_history" />
 </navigation>

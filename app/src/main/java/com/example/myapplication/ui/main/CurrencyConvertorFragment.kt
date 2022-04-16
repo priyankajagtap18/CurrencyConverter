@@ -88,7 +88,7 @@ class CurrencyConvertorFragment : BaseFragment() {
                 }
             }
         }
-        binding.btnSwap.setOnClickListener {
+        binding.ivSwap.setOnClickListener {
             val fromAmount = viewModel.convertedFromValue.get()
             val toAmount = viewModel.convertedToValue.get()
             binding.etFrom.setText(toAmount.toString())
