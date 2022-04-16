@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/currencyConverterFragment"
         android:name="com.example.myapplication.ui.main.CurrencyConvertorFragment"
-        android:label="label_currency_converter"
+        android:label=""
         tools:layout="@layout/fragment_currency_converter">
 
 <!--        <action android:id="@+id/action_myHomeFragment_to_mySecondFragment"-->

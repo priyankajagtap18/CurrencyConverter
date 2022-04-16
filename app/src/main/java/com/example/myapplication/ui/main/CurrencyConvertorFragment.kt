@@ -5,23 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.myapplication.R
 import com.example.myapplication.data.remote.model.CurrencyCallback
-import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.databinding.FragmentCurrencyConverterBinding
+import com.example.myapplication.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.scopes.ViewModelScoped
 
 
 @AndroidEntryPoint
-class CurrencyConvertorFragment : Fragment() {
+class CurrencyConvertorFragment : BaseFragment() {
 
     private lateinit var binding: FragmentCurrencyConverterBinding
 
@@ -34,7 +29,12 @@ class CurrencyConvertorFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_currency_converter, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_currency_converter,
+            container,
+            false
+        )
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         return binding.root
@@ -42,7 +42,40 @@ class CurrencyConvertorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchAllCurrency()
+        initListener()
+        observeLiveDataEvents()
+    }
+
+    private fun observeLiveDataEvents() {
+        viewModel.allCurrencies.observe(viewLifecycleOwner) { currencyResponse ->
+            when (currencyResponse) {
+                is CurrencyCallback.Success -> {
+                    if (!currencyResponse.success.success) {
+                        showError(currencyResponse.success.baseError.info)
+                    } else {
+                        currencyResponse.success?.rates?.keys?.let { it -> setAdapter(it.toTypedArray()) }
+                    }
+                    binding.progressBar.isVisible = false
+
+                }
+                is CurrencyCallback.Failure -> {
+                    showError(resources.getString(R.string.app_error))
+                    binding.progressBar.isVisible = false
+                }
+                is CurrencyCallback.Loading -> {
+                    binding.progressBar.isVisible = true
+                }
+            }
+        }
+
+        viewModel.convertedCurrency.observe(viewLifecycleOwner) { currencyResponse ->
+            if (currencyResponse is CurrencyCallback.Failure) {
+                showError(resources.getString(R.string.app_error))
+            }
+        }
+    }
+
+    private fun initListener() {
         binding.btnConvert.setOnClickListener {
             binding.spFromCurrency?.selectedItem?.toString()?.let { it1 ->
                 binding.spToCurrency.selectedItem?.toString()?.let { it2 ->
@@ -55,59 +88,23 @@ class CurrencyConvertorFragment : Fragment() {
                 }
             }
         }
-        binding.btnSwap.setOnClickListener(View.OnClickListener {
+        binding.btnSwap.setOnClickListener {
             val fromAmount = viewModel.convertedFromValue.get()
             val toAmount = viewModel.convertedToValue.get()
             binding.etFrom.setText(toAmount.toString())
             binding.etTo.setText(fromAmount.toString())
-           val fromSpinnerPosition =  binding.spFromCurrency.selectedItemPosition
-           val toSpinnerPosition =  binding.spToCurrency.selectedItemPosition
+            val fromSpinnerPosition = binding.spFromCurrency.selectedItemPosition
+            val toSpinnerPosition = binding.spToCurrency.selectedItemPosition
             binding.spFromCurrency.setSelection(toSpinnerPosition)
             binding.spToCurrency.setSelection(fromSpinnerPosition)
-            val arrayAdapter = binding.spFromCurrency.adapter as ArrayAdapter<String>
+            val arrayAdapter = binding.spFromCurrency.adapter as ArrayAdapter<*>
             arrayAdapter.notifyDataSetChanged()
-            val arrayAdapter2 = binding.spToCurrency.adapter as ArrayAdapter<String>
+            val arrayAdapter2 = binding.spToCurrency.adapter as ArrayAdapter<*>
             arrayAdapter2.notifyDataSetChanged()
-
-        })
-
-        viewModel.allCurrencies.observe(viewLifecycleOwner, Observer { currencyResponse ->
-                when(currencyResponse) {
-                    is CurrencyCallback.Success -> {
-
-                        if(!currencyResponse.success.success) {
-                            Toast.makeText(context, currencyResponse.success.baseError.info, Toast.LENGTH_LONG).show()
-                        } else {
-                            currencyResponse.success?.rates?.keys?.let { it -> setAdapter(it.toTypedArray()) }
-                        }
-                        binding.progressBar.isVisible = false
-
-                    }
-                    is CurrencyCallback.Failure -> {
-                        Toast.makeText(context, "Sorry, something went wrong", Toast.LENGTH_LONG).show()
-                        binding.progressBar.isVisible = false
-                    }
-                    is CurrencyCallback.Loading -> {
-                        binding.progressBar.isVisible = true
-                    }
-            }
-
-
-        })
-
-        viewModel.convertedCurrency.observe(viewLifecycleOwner, Observer { currencyResponse ->
-            when(currencyResponse) {
-                is CurrencyCallback.Failure -> {
-                    Toast.makeText(context, "Sorry, something went wrong", Toast.LENGTH_LONG).show()
-                }
-            }
-
-        })
-
-
+        }
     }
 
-    fun setAdapter(managerArr: Array<String>) {
+    private fun setAdapter(managerArr: Array<String>) {
         val arrayFromAdapter = ArrayAdapter(
             activity?.applicationContext!!,
             android.R.layout.simple_spinner_item,
@@ -121,6 +118,4 @@ class CurrencyConvertorFragment : Fragment() {
         )
         binding.spToCurrency.adapter = arrayToAdapter
     }
-
-
 }

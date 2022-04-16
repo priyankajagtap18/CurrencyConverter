@@ -1,8 +1,6 @@
 package com.example.myapplication.data.remote.service
 
-import com.example.myapplication.data.remote.model.CurrencyConvertResponse
 import com.example.myapplication.data.remote.model.CurrencyResponse
-import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.util.Constants
 import retrofit2.Response
 import retrofit2.http.GET
@@ -17,7 +15,7 @@ interface ICurrencyService {
 
     @GET("latest")
     suspend fun convertCurrency(
-        @Query("base") base: String ,
+        @Query("base") base: String,
         @Query("access_key") accessKey: String = Constants.ACCESS_KEY,
     ): Response<CurrencyResponse>
 }

@@ -1,11 +1,9 @@
 package com.example.myapplication.ui.base
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.example.myapplication.ui.main.MainActivity
 
 
 open class BaseFragment : DialogFragment() {
@@ -40,18 +38,18 @@ open class BaseFragment : DialogFragment() {
 
     open fun showError(message: String?) {
         errorDialog = AlertDialog.Builder(context)
-                .setMessage(if (message.isNullOrBlank()) "Undefined error" else message)
-                .setNegativeButton("Dismiss", null)
-                .show()
+            .setMessage(if (message.isNullOrBlank()) "Undefined error" else message)
+            .setNegativeButton("Dismiss", null)
+            .show()
     }
 
     open fun showAction(message: String?, isCancellable: Boolean = false, action: () -> Unit) {
         errorDialog = AlertDialog.Builder(context)
-                .setMessage(if (message.isNullOrBlank()) "Undefined error" else message)
-                .setNegativeButton("Dismiss", null)
-                .setOnDismissListener { action() }
-                .setCancelable(isCancellable)
-                .show()
+            .setMessage(if (message.isNullOrBlank()) "Undefined error" else message)
+            .setNegativeButton("Dismiss", null)
+            .setOnDismissListener { action() }
+            .setCancelable(isCancellable)
+            .show()
     }
 
     open fun showError(throwable: Throwable) {
@@ -62,14 +60,9 @@ open class BaseFragment : DialogFragment() {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-//    open fun onNavigateUp() {
-//        mainActivity.navigateUp()
-//    }
-
     override fun onStop() {
         super.onStop()
         errorDialog?.dismiss()
     }
 
-//    open fun onBackPressed() = mainActivity.navigateBack()
 }
