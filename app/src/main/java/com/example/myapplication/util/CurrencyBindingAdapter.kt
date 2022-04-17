@@ -23,3 +23,13 @@ private fun getAdapter(recyclerView: RecyclerView): CurrencyHistoryAdapter {
         historyAdapter
     }
 }
+//
+//@BindingAdapter("selectionIndex")
+//fun setListener(view: EditText, text : String) {
+//    view.doAfterTextChanged {
+//        if (it != null) {
+//            position.set(it.length)
+//            view.setSelection(it.length)
+//        }
+//    }
+//}

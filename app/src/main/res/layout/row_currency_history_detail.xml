@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.myapplication.data.remote.model.CurrencyRates" />
@@ -19,15 +17,13 @@
             android:id="@+id/tvSymbol"
             android:layout_width="@dimen/size_130"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.component1()}"
-           />
+            android:text="@{viewModel.component1()}" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvRate"
             android:layout_width="@dimen/size_130"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(viewModel.component2())}"
-           />
+            android:text="@{String.valueOf(viewModel.component2())}" />
 
     </LinearLayout>
 </layout>
