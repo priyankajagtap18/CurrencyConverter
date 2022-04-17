@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.remote.model.CurrencyCallback
+import com.example.myapplication.data.remote.model.CurrencyRates
 import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.data.repo.CurrencyConverterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,26 +18,35 @@ class CurrencyHistoryViewModel @Inject constructor(
 private val currencyConverterRepo: CurrencyConverterRepository,
 ) :  ViewModel(){
 
-    val currencyHistory: LiveData<CurrencyCallback> = MutableLiveData()
+    val currencyCallback: LiveData<CurrencyCallback> = MutableLiveData()
+    val currencyHistory = MutableLiveData<List<CurrencyRates>>(emptyList())
+
     private val customViewModelScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
     init {
     }
 
     fun fetchCurrencyHistory(date : String) {
-        (currencyHistory as MutableLiveData).value = CurrencyCallback.Loading
+        (currencyCallback as MutableLiveData).value = CurrencyCallback.Loading
         customViewModelScope.launch() {
             when (val rateResponse = currencyConverterRepo.getHistoricalData(date)) {
-                is ResultWrapper.Error -> currencyHistory.postValue(rateResponse.error?.let {
+                is ResultWrapper.Error -> currencyCallback.postValue(rateResponse.error?.let {
                     CurrencyCallback.Failure(it)
                 })
                 is ResultWrapper.Success -> {
-                    currencyHistory.postValue(rateResponse.data?.let {
+                    currencyCallback.postValue(rateResponse.data?.let {
                         CurrencyCallback.Success(it)
 
                     })
                     withContext(Dispatchers.Main) {
-                        Log.i("spinnerdata", "spinnerdata")
+                        val result = rateResponse.data?.rates
+                        val rate : MutableList<CurrencyRates> = mutableListOf()
+                        result?.forEach { (key, value) ->
+                            rate.add(CurrencyRates(key, value))
+                        }
+
+                        currencyHistory.postValue(rate)
+                        Log.i("spinnerdata", ""+rate.size)
                         //val arr = rateResponse.data?.let { CurrencyCallback.Success(it).success.rates.keys }
                         //  fromSpinnerArray.set(arr.toTypedArray())
                         //Log.i("spinnerdata", "spinnerdata" + fromSpinnerArray.value?.size)

@@ -49,7 +49,7 @@ class CurrencyHistoryFragment : BaseFragment() {
     }
 
     private fun observeLiveDataEvents() {
-        viewModel.currencyHistory.observe(this) {
+        viewModel.currencyCallback.observe(this) {
             when (it) {
                 is CurrencyCallback.Success -> {
                     showSuccess("data" + it.success.rates.size)

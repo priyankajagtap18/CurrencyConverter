@@ -12,6 +12,5 @@ class CurrencyExtension {
 fun getCalendarDate(dateFormat: String): String {
     val calendar = Calendar.getInstance()
     val format = SimpleDateFormat(dateFormat, Locale.getDefault())
-    val currentDate = format.format((calendar.time))
-    return currentDate
+    return format.format((calendar.time))
 }

@@ -7,8 +7,8 @@
         <entry key="app/src/main/res/drawable/ic_swap.xml" value="0.2525" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/layout/fragment_currency_converter.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_currency_history.xml" value="0.340625" />
-        <entry key="app/src/main/res/layout/row_currency_history_detail.xml" value="0.14814814814814814" />
+        <entry key="app/src/main/res/layout/fragment_currency_history.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/row_currency_history_detail.xml" value="0.1" />
       </map>
     </option>
   </component>
