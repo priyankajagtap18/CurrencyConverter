@@ -10,16 +10,16 @@ fun bindItemViewModels(
     recyclerView: RecyclerView,
     itemViewModels: List<CurrencyRates>?
 ) {
-    val adapter = getOrCreateAdapter(recyclerView)
+    val adapter = getAdapter(recyclerView)
     adapter.updateItems(itemViewModels)
 }
 
-private fun getOrCreateAdapter(recyclerView: RecyclerView): CurrencyHistoryAdapter {
+private fun getAdapter(recyclerView: RecyclerView): CurrencyHistoryAdapter {
     return if (recyclerView.adapter != null && recyclerView.adapter is CurrencyHistoryAdapter) {
         recyclerView.adapter as CurrencyHistoryAdapter
     } else {
-        val bindableRecyclerAdapter = CurrencyHistoryAdapter()
-        recyclerView.adapter = bindableRecyclerAdapter
-        bindableRecyclerAdapter
+        val historyAdapter = CurrencyHistoryAdapter()
+        recyclerView.adapter = historyAdapter
+        historyAdapter
     }
 }

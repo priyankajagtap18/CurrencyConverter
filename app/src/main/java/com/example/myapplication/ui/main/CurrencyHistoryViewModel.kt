@@ -8,6 +8,8 @@ import com.example.myapplication.data.remote.model.CurrencyCallback
 import com.example.myapplication.data.remote.model.CurrencyRates
 import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.data.repo.CurrencyConverterRepository
+import com.example.myapplication.util.CurrencyExtension
+import com.example.myapplication.util.getCalendarDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -24,6 +26,7 @@ private val currencyConverterRepo: CurrencyConverterRepository,
     private val customViewModelScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
     init {
+        fetchCurrencyHistory(getCalendarDate(CurrencyExtension.DATE_FORMAT_YYYY_MM_DD))
     }
 
     fun fetchCurrencyHistory(date : String) {

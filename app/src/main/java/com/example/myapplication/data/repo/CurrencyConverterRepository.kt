@@ -60,7 +60,7 @@ class CurrencyConverterRepositoryImpl @Inject constructor(
 
     override suspend fun getHistoricalData(date: String): ResultWrapper<CurrencyResponse> {
         return try {
-            val response = rService.getHistoricalData(date = "2022-04-16")
+            val response = rService.getHistoricalData(date = date)
             val result = response.body()
 
             if (response.isSuccessful && result != null) {
@@ -73,6 +73,5 @@ class CurrencyConverterRepositoryImpl @Inject constructor(
             ResultWrapper.Error(ErrorWrapper(e))
         }
     }
-
 
 }

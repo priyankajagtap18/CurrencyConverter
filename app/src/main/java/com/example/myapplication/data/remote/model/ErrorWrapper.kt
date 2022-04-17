@@ -18,11 +18,10 @@ class ErrorWrapper {
             // if throwable is an instance of HttpException
             // then attempt to parse error data from response body
             is HttpException -> {
-                // handle UNAUTHORIZED situation (when token expired)
                 if (throwable.code() == 401) {
                     errorStatus = ErrorStatus.UNAUTHORIZED
                     code = throwable.code()
-                    message = "Lütfen Giriş Yapınız."
+                    message = "Error"
                 } else {
                     getHttpError(throwable.response()?.errorBody())
                 }
@@ -32,20 +31,20 @@ class ErrorWrapper {
             is SocketTimeoutException -> {
                 errorStatus = ErrorStatus.TIMEOUT
                 code = 0
-                message = "Bağlantı Zaman Aşımına Uğradı."
+                message = "Socket Timeout"
             }
 
             // handle connection error
             is IOException -> {
                 errorStatus = ErrorStatus.NO_CONNECTION
                 code = 0
-                message = "İnternet Bağlantınızı Kontrol Ediniz."
+                message = "Connection Error"
             }
 
             is UnknownHostException -> {
                 errorStatus = ErrorStatus.NO_CONNECTION
                 code = 0
-                message = "İnternet Bağlantınızı Kontrol Ediniz."
+                message = "Unknown host Error"
             }
             else -> {
                 errorStatus = ErrorStatus.EMPTY_RESPONSE

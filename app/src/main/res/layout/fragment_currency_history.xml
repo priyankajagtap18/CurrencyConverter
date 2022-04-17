@@ -9,17 +9,18 @@
             type="com.example.myapplication.ui.main.CurrencyHistoryViewModel" />
     </data>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/size_300">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCurrencyHistory"
             android:layout_width="match_parent"
+            android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:items="@{viewModel.currencyHistory}"
-            android:layout_height="match_parent" />
+            android:layout_height="@dimen/size_300" />
 
-    </RelativeLayout>
+    </ScrollView>
 
 </layout>

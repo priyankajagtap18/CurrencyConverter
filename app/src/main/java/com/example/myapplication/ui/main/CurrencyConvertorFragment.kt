@@ -98,8 +98,10 @@ class CurrencyConvertorFragment : BaseFragment() {
             val toSpinnerPosition = binding.spToCurrency.selectedItemPosition
             binding.spFromCurrency.setSelection(toSpinnerPosition)
             binding.spToCurrency.setSelection(fromSpinnerPosition)
-            (binding.spFromCurrency.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-            (binding.spToCurrency.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+            if(binding.spFromCurrency.adapter != null && binding.spToCurrency.adapter != null) {
+                (binding.spFromCurrency.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                (binding.spToCurrency.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+            }
         }
 
         binding.btnDetails.setOnClickListener {

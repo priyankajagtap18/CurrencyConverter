@@ -5,7 +5,7 @@ import java.util.*
 
 class CurrencyExtension {
     companion object {
-        const val DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd"
+        const val DATE_FORMAT_YYYY_MM_DD = Constants.DATE_FORMAT_YYYY_MM_DD
     }
 }
 
