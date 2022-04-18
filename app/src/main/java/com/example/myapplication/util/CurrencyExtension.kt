@@ -9,8 +9,11 @@ class CurrencyExtension {
     }
 }
 
-fun getCalendarDate(dateFormat: String): String {
+fun getCalendarDate(dateFormat: String, pastDayCount: Int): String {
     val calendar = Calendar.getInstance()
     val format = SimpleDateFormat(dateFormat, Locale.getDefault())
+    if (pastDayCount != 0) {
+        calendar.add(Calendar.DAY_OF_YEAR, -pastDayCount)
+    }
     return format.format((calendar.time))
 }

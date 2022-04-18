@@ -1,8 +1,6 @@
 package com.example.myapplication.data.remote.model
 
-import com.google.gson.annotations.SerializedName
-
-data class CurrencyRates(
+data class CurrencyHistoryChild(
     val symbol: String,
     val rate: Float
 )

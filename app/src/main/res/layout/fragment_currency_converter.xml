@@ -20,17 +20,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:paddingStart="@dimen/size_20"
-            android:text="From"
-            android:textStyle="bold" />
+            style="@style/textTitle"
+            android:layout_marginStart="@dimen/size_20"
+            android:text="@string/from" />
 
         <TextView
             android:id="@+id/tvTo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:paddingEnd="@dimen/size_20"
-            android:text="To"
+            style="@style/textTitle"
+            android:layout_marginEnd="@dimen/size_20"
+            android:text="@string/to"
             android:textStyle="bold" />
 
 
@@ -54,7 +55,8 @@
             android:layout_marginEnd="@dimen/size_20"
             android:layout_toEndOf="@id/spFromCurrency"
             android:paddingTop="@dimen/size_20"
-            app:srcCompat="@drawable/ic_swap" />
+            app:srcCompat="@drawable/ic_swap"
+            android:contentDescription="@string/swap" />
 
         <Spinner
             android:id="@+id/spToCurrency"

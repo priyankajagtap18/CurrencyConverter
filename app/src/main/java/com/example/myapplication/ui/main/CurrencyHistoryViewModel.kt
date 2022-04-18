@@ -1,12 +1,9 @@
 package com.example.myapplication.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.myapplication.data.remote.model.CurrencyCallback
-import com.example.myapplication.data.remote.model.CurrencyRates
-import com.example.myapplication.data.remote.model.ResultWrapper
+import com.example.myapplication.data.remote.model.*
 import com.example.myapplication.data.repo.CurrencyConverterRepository
 import com.example.myapplication.util.CurrencyExtension
 import com.example.myapplication.util.getCalendarDate
@@ -17,47 +14,65 @@ import javax.inject.Inject
 @HiltViewModel
 class CurrencyHistoryViewModel @Inject constructor(
 
-private val currencyConverterRepo: CurrencyConverterRepository,
-) :  ViewModel(){
+    private val currencyConverterRepo: CurrencyConverterRepository,
+) : ViewModel() {
 
     val currencyCallback: LiveData<CurrencyCallback> = MutableLiveData()
-    val currencyHistory = MutableLiveData<List<CurrencyRates>>(emptyList())
+    val currencyHistory = MutableLiveData<List<CurrencyHistoryParent>>(emptyList())
 
     private val customViewModelScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
     init {
-        fetchCurrencyHistory(getCalendarDate(CurrencyExtension.DATE_FORMAT_YYYY_MM_DD))
+        fetchCurrencyHistory()
     }
 
-    fun fetchCurrencyHistory(date : String) {
+    private fun fetchCurrencyHistory() {
         (currencyCallback as MutableLiveData).value = CurrencyCallback.Loading
-        customViewModelScope.launch() {
-            when (val rateResponse = currencyConverterRepo.getHistoricalData(date)) {
-                is ResultWrapper.Error -> currencyCallback.postValue(rateResponse.error?.let {
-                    CurrencyCallback.Failure(it)
-                })
-                is ResultWrapper.Success -> {
-                    currencyCallback.postValue(rateResponse.data?.let {
-                        CurrencyCallback.Success(it)
+        customViewModelScope.launch {
+            val day1History = async {
+                currencyConverterRepo.getHistoricalData(
+                    getCalendarDate(
+                        CurrencyExtension.DATE_FORMAT_YYYY_MM_DD,
+                        0
+                    )
+                )
+            }
+            val day2History = async {
+                currencyConverterRepo.getHistoricalData(
+                    getCalendarDate(
+                        CurrencyExtension.DATE_FORMAT_YYYY_MM_DD,
+                        1
+                    )
+                )
+            }
+            val day3History = async {
+                currencyConverterRepo.getHistoricalData(
+                    getCalendarDate(
+                        CurrencyExtension.DATE_FORMAT_YYYY_MM_DD,
+                        2
+                    )
+                )
+            }
 
-                    })
-                    withContext(Dispatchers.Main) {
-                        val result = rateResponse.data?.rates
-                        val rate : MutableList<CurrencyRates> = mutableListOf()
-                        result?.forEach { (key, value) ->
-                            rate.add(CurrencyRates(key, value))
-                        }
+            val deferredResult = awaitAll(day1History, day2History, day3History)
 
-                        currencyHistory.postValue(rate)
-                        Log.i("spinnerdata", ""+rate.size)
-                        //val arr = rateResponse.data?.let { CurrencyCallback.Success(it).success.rates.keys }
-                        //  fromSpinnerArray.set(arr.toTypedArray())
-                        //Log.i("spinnerdata", "spinnerdata" + fromSpinnerArray.value?.size)
-                    }
-
-                }
+            withContext(Dispatchers.Main) {
+                val parent: MutableList<CurrencyHistoryParent> = mutableListOf()
+                getResult(deferredResult[0])?.let { parent.add(it) }
+                getResult(deferredResult[1])?.let { parent.add(it) }
+                getResult(deferredResult[2])?.let { parent.add(it) }
+                currencyHistory.postValue(parent)
             }
         }
+    }
+
+    private fun getResult(dayData: ResultWrapper<CurrencyResponse>): CurrencyHistoryParent? {
+        val childList = dayData.data?.rates
+        val rate: MutableList<CurrencyHistoryChild> = mutableListOf()
+        childList?.forEach { (key, value) ->
+            rate.add(CurrencyHistoryChild(key, value))
+        }
+        return dayData.data?.date?.let { CurrencyHistoryParent(it, rate) }
     }
 
 }

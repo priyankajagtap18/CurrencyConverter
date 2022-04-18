@@ -2,13 +2,15 @@ package com.example.myapplication.util
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.data.remote.model.CurrencyRates
+import com.example.myapplication.data.remote.model.CurrencyHistoryChild
+import com.example.myapplication.data.remote.model.CurrencyHistoryParent
 import com.example.myapplication.ui.main.CurrencyHistoryAdapter
+import com.example.myapplication.ui.main.CurrencyHistoryChildAdapter
 
 @BindingAdapter("items")
-fun bindItemViewModels(
+fun bindParentData(
     recyclerView: RecyclerView,
-    itemViewModels: List<CurrencyRates>?
+    itemViewModels: List<CurrencyHistoryParent>?
 ) {
     val adapter = getAdapter(recyclerView)
     adapter.updateItems(itemViewModels)
@@ -23,6 +25,26 @@ private fun getAdapter(recyclerView: RecyclerView): CurrencyHistoryAdapter {
         historyAdapter
     }
 }
+//
+//@BindingAdapter("subItems")
+//fun bindChildData(
+//    recyclerView: RecyclerView,
+//    itemViewModels: List<CurrencyHistoryChild>?
+//) {
+//    val adapter = getChildAdapter(recyclerView)
+//    adapter.updateItems(itemViewModels)
+//}
+//
+//private fun getChildAdapter(recyclerView: RecyclerView): CurrencyHistoryChildAdapter {
+//    return if (recyclerView.adapter != null && recyclerView.adapter is CurrencyHistoryChildAdapter) {
+//        recyclerView.adapter as CurrencyHistoryChildAdapter
+//    } else {
+//        val historyAdapter = CurrencyHistoryChildAdapter()
+//        recyclerView.adapter = historyAdapter
+//        historyAdapter
+//    }
+//}
+
 //
 //@BindingAdapter("selectionIndex")
 //fun setListener(view: EditText, text : String) {

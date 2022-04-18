@@ -7,18 +7,14 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.data.remote.model.CurrencyHistoryChild
-import com.example.myapplication.data.remote.model.CurrencyHistoryParent
 import com.example.myapplication.databinding.RowCurrencyHistoryDetailBinding
-import com.example.myapplication.databinding.RowCurrencyHistoryParentBinding
 
-class CurrencyHistoryAdapter : RecyclerView.Adapter<CurrencyHistoryAdapter.BindableViewHolder>() {
-
-    lateinit var historicalList: List<CurrencyHistoryParent>
+class CurrencyHistoryChildAdapter(private var historicalList: List<CurrencyHistoryChild>) : RecyclerView.Adapter<CurrencyHistoryChildAdapter.BindableViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindableViewHolder {
         val binding : ViewDataBinding =  DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.row_currency_history_parent,
+            R.layout.row_currency_history_detail,
             parent,
             false
         )
@@ -29,10 +25,10 @@ class CurrencyHistoryAdapter : RecyclerView.Adapter<CurrencyHistoryAdapter.Binda
     override fun getItemCount(): Int = historicalList.size
 
     override fun onBindViewHolder(holder: BindableViewHolder, position: Int) {
-        holder.bindData(historicalList[position], position)
+        holder.bindData(historicalList.get(position) )
     }
 
-    fun updateItems(items: List<CurrencyHistoryParent>?) {
+    fun updateItems(items: List<CurrencyHistoryChild>?) {
         historicalList = items ?: emptyList()
         notifyDataSetChanged()
     }
@@ -41,11 +37,9 @@ class CurrencyHistoryAdapter : RecyclerView.Adapter<CurrencyHistoryAdapter.Binda
 open inner class BindableViewHolder(private val binding: ViewDataBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bindData(list: CurrencyHistoryParent, position : Int) {
-        with(binding as RowCurrencyHistoryParentBinding) {
+    fun bindData(list: CurrencyHistoryChild) {
+        with(binding as RowCurrencyHistoryDetailBinding) {
             viewModel = list
-            binding.rvCurrencyHistoryChild.adapter = CurrencyHistoryChildAdapter(historicalList[position].rates)
-            binding.executePendingBindings()
         }
     }
 }

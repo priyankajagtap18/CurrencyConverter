@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/layout/fragment_currency_converter.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_currency_history.xml" value="0.1" />
         <entry key="app/src/main/res/layout/row_currency_history_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/row_currency_history_parent.xml" value="0.21728395061728395" />
       </map>
     </option>
   </component>
