@@ -40,9 +40,6 @@ class CurrencyConverterViewModel @Inject constructor(
                         CurrencyCallback.Success(it)
 
                     })
-                    withContext(Dispatchers.Main) {
-                    }
-
                 }
             }
         }

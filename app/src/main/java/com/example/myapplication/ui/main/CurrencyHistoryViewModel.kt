@@ -55,13 +55,16 @@ class CurrencyHistoryViewModel @Inject constructor(
             }
 
             val deferredResult = awaitAll(day1History, day2History, day3History)
+            val parent: MutableList<CurrencyHistoryParent> = mutableListOf()
+            getResult(deferredResult[0])?.let { parent.add(it) }
+            getResult(deferredResult[1])?.let { parent.add(it) }
+            getResult(deferredResult[2])?.let { parent.add(it) }
+            currencyHistory.postValue(parent)
 
             withContext(Dispatchers.Main) {
-                val parent: MutableList<CurrencyHistoryParent> = mutableListOf()
-                getResult(deferredResult[0])?.let { parent.add(it) }
-                getResult(deferredResult[1])?.let { parent.add(it) }
-                getResult(deferredResult[2])?.let { parent.add(it) }
-                currencyHistory.postValue(parent)
+                if (parent.size == 0)
+                    (currencyCallback).value =
+                        CurrencyCallback.Failure(ErrorWrapper(throwable = Exception()))
             }
         }
     }

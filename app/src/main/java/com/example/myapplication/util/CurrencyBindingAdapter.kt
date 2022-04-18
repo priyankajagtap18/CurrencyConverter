@@ -2,10 +2,8 @@ package com.example.myapplication.util
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.data.remote.model.CurrencyHistoryChild
 import com.example.myapplication.data.remote.model.CurrencyHistoryParent
 import com.example.myapplication.ui.main.CurrencyHistoryAdapter
-import com.example.myapplication.ui.main.CurrencyHistoryChildAdapter
 
 @BindingAdapter("items")
 fun bindParentData(
@@ -45,13 +43,3 @@ private fun getAdapter(recyclerView: RecyclerView): CurrencyHistoryAdapter {
 //    }
 //}
 
-//
-//@BindingAdapter("selectionIndex")
-//fun setListener(view: EditText, text : String) {
-//    view.doAfterTextChanged {
-//        if (it != null) {
-//            position.set(it.length)
-//            view.setSelection(it.length)
-//        }
-//    }
-//}

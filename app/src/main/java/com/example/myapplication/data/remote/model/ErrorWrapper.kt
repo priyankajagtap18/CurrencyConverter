@@ -49,7 +49,7 @@ class ErrorWrapper {
             else -> {
                 errorStatus = ErrorStatus.EMPTY_RESPONSE
                 code = 1453
-                message = throwable.message.toString()
+                message = "Sorry something went wrong"
             }
         }
     }
