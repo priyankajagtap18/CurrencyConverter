@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.example.myapplication.R
+import com.example.myapplication.ui.base.BaseActivity
 import com.example.myapplication.util.NetworkConnectionUtil
 import dagger.hilt.android.AndroidEntryPoint
 

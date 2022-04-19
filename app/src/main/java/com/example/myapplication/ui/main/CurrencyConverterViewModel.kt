@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.data.remote.model.CurrencyCallback
+import com.example.myapplication.data.remote.model.CurrencyHistoryChild
 import com.example.myapplication.data.remote.model.ErrorWrapper
 import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.data.repo.CurrencyConverterRepository
@@ -22,6 +23,7 @@ class CurrencyConverterViewModel @Inject constructor(
     val convertedCurrency: LiveData<CurrencyCallback> = MutableLiveData()
     var convertedToValue: ObservableField<String> = ObservableField<String>()
     var convertedFromValue: ObservableField<String> = ObservableField<String>()
+    var otherCurrency: LiveData<List<CurrencyHistoryChild>> = MutableLiveData()
     private val customViewModelScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
     init {
@@ -46,9 +48,9 @@ class CurrencyConverterViewModel @Inject constructor(
     }
 
     fun convert(fromAmount: String, toAmount: String, fromCurrency: String, toCurrency: String) {
-        val fromDoubleAmount = fromAmount.toFloatOrNull()
-        val toDoubleAmount = toAmount.toFloatOrNull()
-        if ((fromDoubleAmount == 0f || fromDoubleAmount == null) && (toDoubleAmount == 0f || toDoubleAmount == null)) {
+        val fromFloatAmount = fromAmount.toFloatOrNull()
+        val toFloatAmount = toAmount.toFloatOrNull()
+        if ((fromFloatAmount == 0f || fromFloatAmount == null) && (toFloatAmount == 0f || toFloatAmount == null)) {
             (convertedCurrency as MutableLiveData).postValue(
                 CurrencyCallback.Failure(
                     ErrorWrapper(
@@ -69,14 +71,30 @@ class CurrencyConverterViewModel @Inject constructor(
                     ) {
                         val computedValue: Float
 
-                        if (toDoubleAmount == 0f || toDoubleAmount == null) {
+                        if (toFloatAmount == 0f || toFloatAmount == null) {
                             computedValue =
-                                (rateResponse.data.rates.getValue(toCurrency)) * fromDoubleAmount!!
+                                (rateResponse.data.rates.getValue(toCurrency)) * fromFloatAmount!!
                             convertedToValue?.set(String.format("%.2f", computedValue))
+                            createOtherCurrencyData(
+                                rateResponse.data.rates,
+                                fromCurrency,
+                                toCurrency,
+                                fromFloatAmount,
+                                toFloatAmount,
+                                false
+                            )
                         } else {
                             computedValue =
-                                (rateResponse.data.rates.getValue(fromCurrency)) * toDoubleAmount!!
+                                (rateResponse.data.rates.getValue(fromCurrency)) * toFloatAmount!!
                             convertedFromValue?.set(String.format("%.2f", computedValue))
+                            createOtherCurrencyData(
+                                rateResponse.data.rates,
+                                fromCurrency,
+                                toCurrency,
+                                fromFloatAmount,
+                                toFloatAmount,
+                                true
+                            )
                         }
                     }
 
@@ -87,6 +105,36 @@ class CurrencyConverterViewModel @Inject constructor(
                     })
                 }
             }
+        }
+    }
+
+    private suspend fun createOtherCurrencyData(
+        rates: LinkedHashMap<String, Float>,
+        fromCurrency: String,
+        toCurrency: String,
+        fromFloatAmount: Float?,
+        toFloatAmount: Float?,
+        fromValue: Boolean
+    ) {
+        val otherCurrencyList: MutableList<CurrencyHistoryChild> = mutableListOf()
+
+        rates.forEach { (key, value) ->
+            val rateValue : Float
+            val detailValue: String
+            if (fromValue) {
+                rateValue =
+                    (String.format("%.2f", ((rates.getValue(key)) * toFloatAmount!!))).toFloat()
+                detailValue = "1 " + toCurrency + " = " + (String.format("%.2f", value)) + " " + key
+            } else {
+                rateValue =
+                    (String.format("%.2f", ((rates.getValue(key)) * fromFloatAmount!!))).toFloat()
+                detailValue =
+                    "1 " + fromCurrency + " = " + (String.format("%.2f", value)) + " " + key
+            }
+            otherCurrencyList.add(CurrencyHistoryChild(key, rateValue, detailValue))
+        }
+        withContext(Dispatchers.Main) {
+            (otherCurrency as MutableLiveData).value = otherCurrencyList
         }
     }
 

@@ -73,7 +73,7 @@ class CurrencyHistoryViewModel @Inject constructor(
         val childList = dayData.data?.rates
         val rate: MutableList<CurrencyHistoryChild> = mutableListOf()
         childList?.forEach { (key, value) ->
-            rate.add(CurrencyHistoryChild(key, value))
+            rate.add(CurrencyHistoryChild(key, value, null))
         }
         return dayData.data?.date?.let { CurrencyHistoryParent(it, rate) }
     }

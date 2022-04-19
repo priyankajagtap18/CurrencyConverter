@@ -17,3 +17,7 @@ fun getCalendarDate(dateFormat: String, pastDayCount: Int): String {
     }
     return format.format((calendar.time))
 }
+
+fun String.formatValue(): String {
+    return String.format("%.2f", this)
+}

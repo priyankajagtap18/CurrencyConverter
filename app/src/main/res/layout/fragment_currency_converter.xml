@@ -13,26 +13,23 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/size_10">
+        android:layout_margin="@dimen/size_20">
 
         <TextView
             android:id="@+id/tvFrom"
+            style="@style/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            style="@style/textTitle"
-            android:layout_marginStart="@dimen/size_20"
             android:text="@string/from" />
 
         <TextView
             android:id="@+id/tvTo"
+            style="@style/textTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            style="@style/textTitle"
-            android:layout_marginEnd="@dimen/size_20"
-            android:text="@string/to"
-            android:textStyle="bold" />
+            android:text="@string/to" />
 
 
         <Spinner
@@ -40,10 +37,6 @@
             android:layout_width="@dimen/size_130"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvFrom"
-            android:layout_marginStart="@dimen/size_20"
-            android:layout_marginTop="@dimen/size_20"
-            android:layout_marginEnd="@dimen/size_20"
-            android:layout_marginBottom="@dimen/size_20"
             android:background="@android:drawable/spinner_background"
             android:padding="@dimen/size_20" />
 
@@ -52,11 +45,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvFrom"
+            android:layout_centerHorizontal="true"
             android:layout_marginEnd="@dimen/size_20"
-            android:layout_toEndOf="@id/spFromCurrency"
-            android:paddingTop="@dimen/size_20"
-            app:srcCompat="@drawable/ic_swap"
-            android:contentDescription="@string/swap" />
+            android:contentDescription="@string/swap"
+            app:srcCompat="@drawable/ic_swap" />
 
         <Spinner
             android:id="@+id/spToCurrency"
@@ -64,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTo"
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/size_20"
             android:background="@android:drawable/spinner_background"
             android:padding="@dimen/size_20" />
 
@@ -73,10 +64,7 @@
             android:layout_width="@dimen/size_130"
             android:layout_height="wrap_content"
             android:layout_below="@id/spFromCurrency"
-            android:layout_marginStart="@dimen/size_20"
             android:layout_marginTop="@dimen/size_20"
-            android:layout_marginEnd="@dimen/size_20"
-            android:layout_marginBottom="@dimen/size_20"
             android:inputType="numberDecimal"
             android:maxLength="50"
             android:text="@={viewModel.convertedFromValue}" />
@@ -87,10 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/spToCurrency"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="@dimen/size_20"
             android:layout_marginTop="@dimen/size_20"
-            android:layout_marginEnd="@dimen/size_20"
-            android:layout_marginBottom="@dimen/size_20"
             android:inputType="numberDecimal"
             android:maxLength="50"
             android:text="@={viewModel.convertedToValue}" />
@@ -100,8 +85,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/etFrom"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/size_20"
             android:text="@string/convert" />
 
         <ProgressBar
@@ -116,10 +101,64 @@
             android:id="@+id/btnDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnConvert"
+            android:layout_below="@id/etFrom"
+            android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="@string/currency_details" />
+            android:layout_marginTop="@dimen/size_20"
+            android:text="@string/currency_history" />
+
+        <TextView
+            android:id="@+id/tvOtherCurrencyTitle"
+            style="@style/textSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnDetails"
+            android:layout_marginTop="@dimen/size_20"
+            android:background="@color/teal_700"
+            android:gravity="center_horizontal"
+            android:text="@string/other_currencies"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_other_currency"
+            android:orientation="horizontal"
+            android:background="@color/teal_200"
+            android:layout_below="@id/tvOtherCurrencyTitle"
+            android:weightSum="10">
+            <TextView
+                style="@style/textSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/currency" />
+
+            <TextView
+                style="@style/textSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/rate" />
+
+            <TextView
+                style="@style/textSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/per_rate" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvOtherCurrency"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/ll_other_currency"
+            android:orientation="vertical"
+            android:scrollbars="vertical"
+            app:otherCurrencyItems="@{viewModel.otherCurrency}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </RelativeLayout>
 

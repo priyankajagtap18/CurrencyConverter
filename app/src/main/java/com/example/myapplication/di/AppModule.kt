@@ -31,7 +31,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideMainRepository(api: ICurrencyService): CurrencyConverterRepository =
-        CurrencyConverterRepositoryImpl(api)
+    fun provideMainRepository(service: ICurrencyService): CurrencyConverterRepository =
+        CurrencyConverterRepositoryImpl(service)
 
 }
