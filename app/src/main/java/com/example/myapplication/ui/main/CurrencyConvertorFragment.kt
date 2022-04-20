@@ -54,6 +54,7 @@ class CurrencyConvertorFragment : BaseFragment() {
                     if (!it.success.success) {
                         showError(it.success.baseError.info)
                     } else {
+                        binding.etFrom.setText("1")
                         it.success.rates.keys.let { setAdapter(it.toTypedArray()) }
                     }
                     binding.progressBar.isVisible = false

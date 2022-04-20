@@ -24,6 +24,6 @@
     <fragment
         android:id="@+id/currencyHistoryFragment"
         android:name="com.example.myapplication.ui.main.CurrencyHistoryFragment"
-        android:label="@string/details"
+        android:label="@string/currency_history"
         tools:layout="@layout/fragment_currency_history" />
 </navigation>

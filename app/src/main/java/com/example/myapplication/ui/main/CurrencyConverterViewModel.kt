@@ -117,19 +117,23 @@ class CurrencyConverterViewModel @Inject constructor(
         fromValue: Boolean
     ) {
         val otherCurrencyList: MutableList<CurrencyHistoryChild> = mutableListOf()
-
+        val perRate = "1 "
+        val equation = " = "
+        val space = " "
         rates.forEach { (key, value) ->
-            val rateValue : Float
+            val rateValue: Float
             val detailValue: String
+            val strBuilder: StringBuilder = StringBuilder()
             if (fromValue) {
                 rateValue =
                     (String.format("%.2f", ((rates.getValue(key)) * toFloatAmount!!))).toFloat()
-                detailValue = "1 " + toCurrency + " = " + (String.format("%.2f", value)) + " " + key
+                detailValue = strBuilder.append(perRate).append(toCurrency).append(equation)
+                    .append((String.format("%.2f", value))).append(space).append(key).toString()
             } else {
                 rateValue =
                     (String.format("%.2f", ((rates.getValue(key)) * fromFloatAmount!!))).toFloat()
-                detailValue =
-                    "1 " + fromCurrency + " = " + (String.format("%.2f", value)) + " " + key
+                detailValue = strBuilder.append(perRate).append(fromCurrency).append(equation)
+                    .append((String.format("%.2f", value))).append(space).append(key).toString()
             }
             otherCurrencyList.add(CurrencyHistoryChild(key, rateValue, detailValue))
         }

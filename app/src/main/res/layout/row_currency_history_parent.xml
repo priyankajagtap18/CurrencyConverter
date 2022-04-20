@@ -13,9 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="6dp"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="8dp">
+        android:onClick="@{() -> viewModel.onClick()}">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDate"

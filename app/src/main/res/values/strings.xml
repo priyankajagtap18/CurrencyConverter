@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Currency Converter</string>
     <string name="details">Currency Details</string>
-    <string name="other_currencies">Other Currency</string>
+    <string name="other_currencies">Other Currencies</string>
     <string name="app_error">Sorry, something went wrong</string>
     <string name="internet_error">No Internet Connection</string>
     <string name="dismiss">Dismiss</string>

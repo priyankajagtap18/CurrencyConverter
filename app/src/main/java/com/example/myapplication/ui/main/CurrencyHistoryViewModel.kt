@@ -19,6 +19,7 @@ class CurrencyHistoryViewModel @Inject constructor(
 
     val currencyCallback: LiveData<CurrencyCallback> = MutableLiveData()
     val currencyHistory = MutableLiveData<List<CurrencyHistoryParent>>(emptyList())
+    val clickEvent = MutableLiveData<CurrencyHistoryParent>()
 
     private val customViewModelScope by lazy { CoroutineScope(Dispatchers.IO + SupervisorJob()) }
 
@@ -60,8 +61,13 @@ class CurrencyHistoryViewModel @Inject constructor(
             getResult(deferredResult[1])?.let { parent.add(it) }
             getResult(deferredResult[2])?.let { parent.add(it) }
             currencyHistory.postValue(parent)
-
             withContext(Dispatchers.Main) {
+                try {
+                    if (!parent.isNullOrEmpty())
+                        clickEvent.postValue(parent[0])
+                } catch (e: Exception) {
+                    CurrencyCallback.Failure(ErrorWrapper(throwable = Exception()))
+                }
                 if (parent.size == 0)
                     (currencyCallback).value =
                         CurrencyCallback.Failure(ErrorWrapper(throwable = Exception()))
@@ -75,7 +81,10 @@ class CurrencyHistoryViewModel @Inject constructor(
         childList?.forEach { (key, value) ->
             rate.add(CurrencyHistoryChild(key, value, null))
         }
-        return dayData.data?.date?.let { CurrencyHistoryParent(it, rate) }
+        return dayData.data?.date?.let { CurrencyHistoryParent(it, rate, ::onHistoryClickListener) }
+    }
+
+    private fun onHistoryClickListener(detail: String) {
     }
 
 }

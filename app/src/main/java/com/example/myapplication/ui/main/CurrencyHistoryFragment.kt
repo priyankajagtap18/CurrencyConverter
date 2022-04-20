@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.example.myapplication.R
 import com.example.myapplication.data.remote.model.CurrencyCallback
+import com.example.myapplication.data.remote.model.CurrencyHistoryChild
 import com.example.myapplication.databinding.FragmentCurrencyHistoryBinding
 import com.example.myapplication.ui.base.BaseFragment
+import com.example.myapplication.util.ChartHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -40,7 +42,6 @@ class CurrencyHistoryFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initListener()
         observeLiveDataEvents()
     }
 
@@ -60,12 +61,18 @@ class CurrencyHistoryFragment : BaseFragment() {
                 }
             }
         }
+
+        viewModel.currencyHistory.observe(this) {
+            it?.let {
+                if (!it.isNullOrEmpty())
+                    initLineChart(it.get(0).rates)
+            }
+        }
     }
 
 
-    private fun initListener() {
-
-
+    private fun initLineChart(rates: List<CurrencyHistoryChild>) {
+        ChartHelper(binding.lineChartHistory, rates)
     }
 
 }
