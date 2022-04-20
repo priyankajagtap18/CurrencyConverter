@@ -1,5 +1,9 @@
 package com.example.myapplication.util
 
+
+/**
+ * Constants - Holds constant of application
+ */
 class Constants {
     companion object {
         const val BASE_URL = "http://data.fixer.io/api/"

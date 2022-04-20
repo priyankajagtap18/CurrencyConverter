@@ -6,6 +6,9 @@ import com.example.myapplication.data.remote.model.ResultWrapper
 import com.example.myapplication.data.remote.service.ICurrencyService
 import javax.inject.Inject
 
+/**
+ * CurrencyConverterRepository - Repository layer that contains method call to service layer
+ */
 interface CurrencyConverterRepository {
 
     suspend fun getAllCurrency(): ResultWrapper<CurrencyResponse>

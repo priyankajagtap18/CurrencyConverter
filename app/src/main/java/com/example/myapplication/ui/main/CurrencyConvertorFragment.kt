@@ -16,6 +16,14 @@ import com.example.myapplication.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 
+/**
+ * CurrencyConvertorFragment -
+ * 1. Fetch all currency data
+ * 2. Takes input from user to convert currency - Destination field should be 0 or blank to convert currency to achieve 2 way conversion for from / to field. todo
+ * 3. swap currency
+ * 4. Show other currency conversion data in list format - Conversion value from input (from / to) field.
+ * Also display Per rate value for from / to field in each row
+ */
 @AndroidEntryPoint
 class CurrencyConvertorFragment : BaseFragment() {
 

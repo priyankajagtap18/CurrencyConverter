@@ -9,6 +9,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 
+/**
+ * NetworkConnectionUtil - Handles live changes of internet connectivity and informs Activity about it
+ */
 class NetworkConnectionUtil(private val connectivityManager: ConnectivityManager) :
     LiveData<Boolean>() {
     constructor(application: Application) : this(application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)

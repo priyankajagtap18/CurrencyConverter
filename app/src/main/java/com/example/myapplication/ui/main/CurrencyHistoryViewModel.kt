@@ -11,6 +11,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+/**
+ * CurrencyHistoryViewModel -
+ * 1. History ViewModel to fetch historical data of past 3 days from API
+ * 2. Filters history data in parent and child list
+ */
 @HiltViewModel
 class CurrencyHistoryViewModel @Inject constructor(
 

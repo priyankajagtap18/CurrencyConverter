@@ -4,6 +4,10 @@ import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 
+/* *
+* BaseActivity - Base of MainActivity with common methods
+*
+*/
 open class BaseActivity : AppCompatActivity() {
 
     var errorDialog: AlertDialog? = null

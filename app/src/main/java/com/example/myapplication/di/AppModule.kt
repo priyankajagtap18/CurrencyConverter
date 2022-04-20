@@ -14,6 +14,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * AppModule - Singleton ,Annotates a class that contributes to the object graph.
+ */
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {

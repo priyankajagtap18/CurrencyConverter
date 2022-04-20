@@ -7,6 +7,9 @@ import androidx.fragment.app.DialogFragment
 import com.example.myapplication.R
 
 
+/**
+ * BaseFragment - Base of all fragments with common methods
+ */
 open class BaseFragment : DialogFragment() {
 
     private var errorDialog: AlertDialog? = null

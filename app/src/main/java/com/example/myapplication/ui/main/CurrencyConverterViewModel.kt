@@ -14,6 +14,12 @@ import kotlinx.coroutines.*
 import javax.inject.Inject
 
 
+/**
+ * CurrencyConverterViewModel -
+ * 1. Fetches latest data of all symbols and rates.
+ * 2. Convert currency data
+ * 3. Generate other currencies data and post
+ */
 @HiltViewModel
 class CurrencyConverterViewModel @Inject constructor(
     private val currencyConverterRepo: CurrencyConverterRepository,

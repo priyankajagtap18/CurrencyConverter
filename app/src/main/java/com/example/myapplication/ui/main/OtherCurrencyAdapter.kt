@@ -9,7 +9,10 @@ import com.example.myapplication.R
 import com.example.myapplication.data.remote.model.CurrencyHistoryChild
 import com.example.myapplication.databinding.RowOtherCurrencyBinding
 
-class OtherCurrencyAdapter() : RecyclerView.Adapter<OtherCurrencyAdapter.BindableViewHolder>() {
+/**
+ * OtherCurrencyAdapter - Other Currency conversion adapter with list of currency, conversion of custom rate from/to field and per rate value is displayed
+ */
+class OtherCurrencyAdapter : RecyclerView.Adapter<OtherCurrencyAdapter.BindableViewHolder>() {
 
     lateinit var otherCurrencyList: List<CurrencyHistoryChild>
 

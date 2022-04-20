@@ -8,6 +8,12 @@ import com.example.myapplication.ui.base.BaseActivity
 import com.example.myapplication.util.NetworkConnectionUtil
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * MainActivity -
+ * 1. Launcher activity
+ * 2. Initialize navigation graph and views
+ * 3. Handles Internet connectivity response
+ */
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
 

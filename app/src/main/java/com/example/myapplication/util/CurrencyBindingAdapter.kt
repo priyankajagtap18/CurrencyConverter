@@ -7,6 +7,10 @@ import com.example.myapplication.data.remote.model.CurrencyHistoryParent
 import com.example.myapplication.ui.main.CurrencyHistoryAdapter
 import com.example.myapplication.ui.main.OtherCurrencyAdapter
 
+
+/**
+ * CurrencyBindingAdapter - Databinding of History list and Other currency list
+ */
 @BindingAdapter("items")
 fun bindParentData(
     recyclerView: RecyclerView,

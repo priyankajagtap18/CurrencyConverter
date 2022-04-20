@@ -3,6 +3,9 @@ package com.example.myapplication.util
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * CurrencyExtension - Extension function for app
+ */
 class CurrencyExtension {
     companion object {
         const val DATE_FORMAT_YYYY_MM_DD = Constants.DATE_FORMAT_YYYY_MM_DD

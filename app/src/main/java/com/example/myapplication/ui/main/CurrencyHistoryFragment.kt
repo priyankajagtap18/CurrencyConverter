@@ -15,6 +15,12 @@ import com.example.myapplication.util.ChartHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 
+/**
+ * CurrencyHistoryFragment -
+ * 1. Shows history of past three days from calendar in list format. Child list of each day is horizontal scrollable.
+ * 2. Display data of first day in line chart format - Used MPChart library
+ *
+ */
 @AndroidEntryPoint
 class CurrencyHistoryFragment : BaseFragment() {
 

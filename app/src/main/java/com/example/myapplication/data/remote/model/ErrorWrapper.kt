@@ -7,6 +7,9 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
+/**
+ * ErrorWrapper -  Error class to fetch type of error caused and handle messages
+ */
 class ErrorWrapper {
     var code: Int = 0
     var message: String = ""

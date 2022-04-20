@@ -9,6 +9,9 @@ import com.example.myapplication.R
 import com.example.myapplication.data.remote.model.CurrencyHistoryChild
 import com.example.myapplication.databinding.RowCurrencyHistoryDetailBinding
 
+/**
+ * CurrencyHistoryChildAdapter - Child history adapter contains horizontal list of currency and rate for each day from calendar
+ */
 class CurrencyHistoryChildAdapter(private var historicalList: List<CurrencyHistoryChild>) : RecyclerView.Adapter<CurrencyHistoryChildAdapter.BindableViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindableViewHolder {

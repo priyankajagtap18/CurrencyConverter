@@ -2,6 +2,9 @@ package com.example.myapplication.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * CurrencyResponse - Detailed Response of all currency data in LinkedHashmap of Symbol and rates, and other details
+ */
 data class CurrencyResponse(
     @SerializedName("base")
     val base: String,

@@ -10,6 +10,11 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
+/**
+ * ChartHelper -
+ * 1. Initialize MPLine chart and lifecycle method of chart.
+ * 2. Display chart and invalidate
+ */
 class ChartHelper(private val chart: LineChart, rates: List<CurrencyHistoryChild>) {
 
     private val chartData = rates
@@ -64,7 +69,7 @@ class ChartHelper(private val chart: LineChart, rates: List<CurrencyHistoryChild
         //you can replace this data object with  your custom object
         for (i in chartData.indices) {
             val data = chartData[i]
-            entries.add(Entry(i.toFloat(), data.rate))
+            entries.add(Entry(i.toFloat(), String.format("%.2f",data.rate).toFloat()))
         }
         val lineDataSet = LineDataSet(entries, "")
         val data = LineData(lineDataSet)
