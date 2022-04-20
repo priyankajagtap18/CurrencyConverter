@@ -10,6 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
+
+    lateinit var navHostFragment: NavHostFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,13 +19,17 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initNavigation() {
-        val navHostFragment =
+        navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         NavigationUI.setupActionBarWithNavController(this, navHostFragment.navController)
-        observeEvents()
+        observeNetworkEvents()
     }
 
-    private fun observeEvents() {
+    override fun onSupportNavigateUp(): Boolean {
+        return navHostFragment?.navController?.navigateUp() ?: false
+    }
+
+    private fun observeNetworkEvents() {
         val connectivity = NetworkConnectionUtil(application)
         connectivity.observe(this) { isConnected ->
             if (!isConnected)
